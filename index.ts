@@ -1,10 +1,15 @@
-import express from "express";
-import middleware1 from "./middlewares/headers.middleware.ts"
-import apiRouter from "./routes";
-import cors from "cors";
-import mongoose from 'mongoose';
 import dotenv from "dotenv";
 dotenv.config();
+
+import express from "express";
+import v1Routers from "./src/routes/v1";
+import cors from "cors";
+import mongoose from 'mongoose';
+
+console.log(process.env.EMAIL_USER);
+console.log(process.env.EMAIL_PASS);
+console.log(process.env.JWT_SECRET);
+console.log(process.env.MONGODB_URI);
 
 const app = express();
 
@@ -25,7 +30,7 @@ async function main() {
     app.use(cors({ origin: "*" }));
     app.use(express.json({ limit: "10kb"}));
     app.use(express.urlencoded({ extended: true }));
-    app.use("/api", apiRouter);
+    app.use("/api/v1", v1Routers);
 
     app.listen(4000, () => {
     console.log("Server is running on http://localhost:4000");
