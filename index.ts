@@ -33,8 +33,11 @@ async function main() {
     app.use("/api/v1", v1Routers);
 
     app.listen(4000, () => {
-    console.log("Server is running on http://localhost:4000");
+        console.log("Server is running on http://localhost:4000");
     });
 }
 
-await main();
+main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+});

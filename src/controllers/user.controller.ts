@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import * as userService from '../services/user.service';
-import { sendSuccess } from '../helpers/apiResponse';
-import type { CreateUserInput, UpdateUserInput } from '../validations/user.validation';
+import * as userService from '@/services/user.service';
+import { sendSuccess } from '@/helpers/apiResponse';
+import type { CreateUserInput, UpdateUserInput } from '@/validations/user.validation';
 
 export async function listUsers(req: Request, res: Response): Promise<void> {
   const page = Number(req.query.page ?? 1);
