@@ -13,12 +13,22 @@ async function connectDB() {
   console.log("MongoDB connected successfully");
 }
 
-connectDB().catch(console.error);
+async function main() {
+  await connectDB();
 
-app.use(cors({ origin: "*" }));
-app.use(express.json({ limit: "10kb" }));
-app.use(express.urlencoded({ extended: true }));
+  app.use(cors({ origin: "*" }));
+  app.use(express.json({ limit: "10kb" }));
+  app.use(express.urlencoded({ extended: true }));
+  app.use("/api/v1", v1Routers);
 
-app.use("/api/v1", v1Routers);
+  app.listen(4000, () => {
+    console.log("Server is running on http://localhost:4000");
+  });
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
 
 export default app;
