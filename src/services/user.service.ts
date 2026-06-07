@@ -1,8 +1,8 @@
-import { UserModel } from '../models/user.model';
-import type { UserDocument } from '../models/user.model';
-import { hashPassword } from '../helpers/password';
-import { getPagination } from '../helpers/pagination';
-import { AppError } from '../lib/AppError';
+import { UserModel } from '@/models/user.model';
+import type { UserDocument } from '@/models/user.model';
+import { hashPassword } from '@/helpers/password';
+import { getPagination } from '@/helpers/pagination';
+import { AppError } from '@/lib/AppError';
 
 interface CreateUserData {
   name: string;

@@ -29,14 +29,25 @@ export async function registerUser(input: RegisterInput): Promise<AuthResult> {
 
 export async function loginUser(input: LoginInput): Promise<AuthResult> {
   console.log(input);
-  const user = await UserModel.findOne({ email: input.email }).select('+password');
+  const user = await UserModel.findOne({
+    email: input.email,
+  }).select("+password");
+
   if (!user) {
-    throw new AppError(401, 'Invalid email or password');
+    throw new AppError(401, "Invalid email or password");
   }
 
-  const matches = await comparePassword(input.password, user.password);
+  if (!user.password) {
+    throw new AppError(401, "Invalid email or password");
+  }
+
+  const matches = await comparePassword(
+    input.password,
+    user.password
+  );
+
   if (!matches) {
-    throw new AppError(401, 'Invalid email or password');
+    throw new AppError(401, "Invalid email or password");
   }
 
   const token = signToken({ sub: String(user._id), email: user.email, role: user.role });

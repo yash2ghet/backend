@@ -35,7 +35,7 @@ const userSchema = new Schema(
       {
         token: { type: String, required: true },
         isActive: { type: Boolean, default: true },
-        createdAt: { type: Date, dafault: Date.now},
+        createdAt: { type: Date, default: Date.now },
       },
     ],
   },
