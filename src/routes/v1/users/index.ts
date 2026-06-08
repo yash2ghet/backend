@@ -6,10 +6,34 @@ const usersRouter = Router()
 // GET ALL USERS
 usersRouter.get("/", async (req, res) => {
   try {
-    const users = await UserModel.find()
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 5
+    const search = String(req.query.search || "")
+
+    // console.log("SEARCH FROM DB:", search)
+
+    const skip = (page - 1) * limit
+
+    const filter = {
+      $or: [
+        { firstName: { $regex: search, $options: "i" } },
+        { lastName: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ],
+    }
+
+    const total = await UserModel.countDocuments(filter)
+
+    const users = await UserModel.find(filter)
+      .skip(skip)
+      .limit(limit)
 
     res.json({
       data: users,
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
     })
   } catch (error) {
     res.status(500).json({
